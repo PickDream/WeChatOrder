@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: maoxin
+    url: jdbc:mysql://localhost/wechat-order?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
