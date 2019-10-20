@@ -21,7 +21,7 @@ public class ProductCategoryRepositoryTest {
     @Test
     public void setProductCategory(){
         ProductCategory category = ProductCategory.builder()
-                .categoryName("随便").categoryType(2).build();
+                .categoryName("随便").categoryType(2L).build();
         repository.save(category);
         log.info("category:{}",category);
     }

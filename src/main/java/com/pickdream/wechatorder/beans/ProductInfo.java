@@ -50,7 +50,7 @@ public class ProductInfo {
     private Integer productStatus = ProductStatusEnum.UP.getCode();
 
     /** 类目编号. */
-    private Integer categoryType;
+    private Long categoryType;
 
     @Column(updatable = false)
     @CreationTimestamp

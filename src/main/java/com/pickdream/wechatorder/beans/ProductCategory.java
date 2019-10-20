@@ -26,7 +26,7 @@ public class ProductCategory {
     private String categoryName;
 
     /** 类目编号. */
-    private Integer categoryType;
+    private Long categoryType;
 
     @Column(updatable = false)
     @CreationTimestamp
