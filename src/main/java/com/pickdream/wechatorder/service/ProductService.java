@@ -13,6 +13,7 @@ public interface ProductService {
     //获取所有在架商品
     ResultVo listUpProducts();
 
+    ProductInfo findOne(String productId);
     //增加库存
     void increaseStock(List<CartDTO> cartDTOList);
     void decreaseStock(List<CartDTO> cartDTOList);
