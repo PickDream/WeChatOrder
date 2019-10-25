@@ -1,30 +1,35 @@
-package com.mao.order.beans;
+package com.pickdream.wechatorder.beans;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Type;
+import org.joda.money.Money;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.math.BigDecimal;
 
 @Entity
 @Data
 public class OrderDetail {
 
     @Id
-    private String detailId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long detailId;
 
     /** 订单id. */
     private String orderId;
 
     /** 商品id. */
-    private String productId;
+    private Long productId;
 
     /** 商品名称. */
     private String productName;
 
     /** 商品单价. */
-    private BigDecimal productPrice;
+    @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmount",
+            parameters = {@org.hibernate.annotations.Parameter(name = "currencyCode",value = "CNY")})
+    private Money productPrice;
 
     /** 商品数量. */
     private Integer productQuantity;

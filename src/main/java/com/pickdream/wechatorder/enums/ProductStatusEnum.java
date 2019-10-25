@@ -10,6 +10,6 @@ public enum  ProductStatusEnum implements CodeEnum{
     UP(0,"上架中"),
     DOWN(1,"下架")
     ;
-    private Integer code;
+    private int code;
     private String msg;
 }

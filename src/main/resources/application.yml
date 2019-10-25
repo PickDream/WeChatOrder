@@ -8,9 +8,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-server:
-  servlet:
-    context-path: /seal
+#server:
+#  servlet:
+#    context-path: /seal
 
 executor:
 

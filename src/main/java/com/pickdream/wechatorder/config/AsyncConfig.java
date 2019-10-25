@@ -21,7 +21,7 @@ public class AsyncConfig {
     private int queueCapacity = Runtime.getRuntime().availableProcessors()*220;
     private int keepAliveSeconds = 3000;
 
-    @Bean
+    @Bean("commonExecutor")
     public Executor taskExecutor(){
         ThreadPoolTaskExecutor poolTaskExecutor = new ThreadPoolTaskExecutor();
 
