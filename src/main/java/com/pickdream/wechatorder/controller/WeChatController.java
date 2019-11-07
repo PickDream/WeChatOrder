@@ -9,6 +9,7 @@ import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URLEncoder;
 
+/**
+ * 微信授权过程
+ * */
 @Controller
 @RequestMapping("/wechat")
 @Slf4j
@@ -48,6 +52,16 @@ public class WeChatController {
                     e.getError().getErrorMsg());
         }
         String openId = wxMpOAuth2AccessToken.getOpenId();
+        //1. openId 在UserInfo 是否存在
+        //2. 不存在-> 则调用API进行获取
+        WxMpUser userInfo = null;
+        try {
+            userInfo = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken,null);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+        String str = userInfo.getCity();
         return "redirect:"+ returnUrl + "?openid="+openId;
     }
+
 }

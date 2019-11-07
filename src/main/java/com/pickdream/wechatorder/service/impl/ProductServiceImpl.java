@@ -8,6 +8,7 @@ import com.pickdream.wechatorder.beans.ProductInfo;
 import com.pickdream.wechatorder.dto.CartDTO;
 import com.pickdream.wechatorder.enums.ExceptionEnum;
 import com.pickdream.wechatorder.enums.ProductStatusEnum;
+import com.pickdream.wechatorder.enums.ResultEnum;
 import com.pickdream.wechatorder.exception.SellException;
 import com.pickdream.wechatorder.respository.ProductCategoryRepository;
 import com.pickdream.wechatorder.respository.ProductInfoRepository;
@@ -29,6 +30,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductInfoRepository productInfoRepository;
 
+
+    @Override
+    public ProductInfo findOne(Long productId) {
+        return productInfoRepository.getOne(productId);
+    }
+
     @Override
     public ResultVo listUpProducts() {
         List<ProductInfo> productInfoList =
@@ -45,7 +52,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void increaseStock(List<CartDTO> cartDTOList) {
-
+        for (CartDTO cartDTO:cartDTOList){
+            ProductInfo productInfo = productInfoRepository.getOne(cartDTO.getProductId());
+            if (productInfo==null){
+                throw new SellException(ExceptionEnum.PRODUCT_NOT_EXIST);
+            }
+            Integer result = productInfo.getProductStock()+cartDTO.getProductQuantity();
+            productInfo.setProductStock(result);
+            productInfoRepository.save(productInfo);
+        }
     }
 
     @Override
@@ -66,6 +81,11 @@ public class ProductServiceImpl implements ProductService {
             pInfo.setProductStock(result);
             productInfoRepository.save(pInfo);
         });
+    }
+
+    @Override
+    public ProductInfo save(ProductInfo info) {
+        return productInfoRepository.save(info);
     }
 
     private List<ProductVo> assembleProductsVo(List<ProductInfo> productInfos,

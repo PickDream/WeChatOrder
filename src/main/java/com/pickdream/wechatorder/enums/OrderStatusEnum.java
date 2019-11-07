@@ -1,10 +1,11 @@
 package com.pickdream.wechatorder.enums;
 
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+/**
+ * 订单状态常量定义
+ * */
 @Getter
 @AllArgsConstructor
 public enum OrderStatusEnum implements CodeEnum {

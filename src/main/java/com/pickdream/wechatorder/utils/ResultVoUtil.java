@@ -4,6 +4,7 @@ import com.pickdream.wechatorder.VO.ResultVo;
 import com.pickdream.wechatorder.enums.ResultEnum;
 
 public final class ResultVoUtil {
+
     public static ResultVo success(Object obj){
         ResultVo resultVo = ResultVo.builder()
                 .code(ResultEnum.SUCCESS.getCode())

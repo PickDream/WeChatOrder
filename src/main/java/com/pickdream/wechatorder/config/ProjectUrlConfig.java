@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Data
-@PropertySource("application.yml")
+@PropertySource("classpath:application.yml")
 @ConfigurationProperties(prefix = "project-url")
 @Component
 public class ProjectUrlConfig {

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 
+/**
+ * 商品状态常量定义
+ * */
 @Getter
 @AllArgsConstructor
 public enum  ProductStatusEnum implements CodeEnum{

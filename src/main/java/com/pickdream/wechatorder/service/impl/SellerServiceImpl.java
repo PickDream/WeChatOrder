@@ -12,6 +12,6 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public SellerInfo findSellerInfoByOpenid(String openid) {
-        return null;
+        return repository.findByOpenid(openid);
     }
 }

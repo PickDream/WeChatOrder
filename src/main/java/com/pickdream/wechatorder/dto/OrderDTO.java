@@ -1,8 +1,12 @@
 package com.pickdream.wechatorder.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pickdream.wechatorder.beans.OrderDetail;
 import com.pickdream.wechatorder.enums.OrderStatusEnum;
 import com.pickdream.wechatorder.enums.PayStatusEnum;
+import com.pickdream.wechatorder.utils.EnumUtil;
+import com.pickdream.wechatorder.utils.serializer.Date2LongSerializer;
 import lombok.Data;
 import org.joda.money.Money;
 
@@ -37,10 +41,21 @@ public class OrderDTO {
     private Integer payStatus ;
 
     /** 创建时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
     /** 更新时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     private List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getByCode(orderStatus,OrderStatusEnum.class);
+    }
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum(){
+        return EnumUtil.getByCode(payStatus,PayStatusEnum.class);
+    }
 }

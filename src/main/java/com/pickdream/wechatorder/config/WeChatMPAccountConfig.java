@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Data
 @Component
-@PropertySource("application.yml")
+@PropertySource("classpath:application.yml")
 @ConfigurationProperties(prefix = "wechat")
 public class WeChatMPAccountConfig {
 

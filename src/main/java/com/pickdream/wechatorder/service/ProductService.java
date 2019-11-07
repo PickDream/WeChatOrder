@@ -10,12 +10,21 @@ import java.util.List;
 
 public interface ProductService {
 
-    //获取所有在架商品
+
+    ProductInfo findOne(Long productId);
+
+    /**
+     * 获取所有上架商品，封装到ResultVO中
+     * */
     ResultVo listUpProducts();
 
-    ProductInfo findOne(String productId);
-    //增加库存
+    /**
+     * 增加删除库存
+     * @param cartDTOList 用户订购商品与单价的列表对象
+     * */
     void increaseStock(List<CartDTO> cartDTOList);
     void decreaseStock(List<CartDTO> cartDTOList);
+
+    ProductInfo save(ProductInfo info);
 
 }

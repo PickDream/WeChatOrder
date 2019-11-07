@@ -3,6 +3,9 @@ package com.pickdream.wechatorder.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 支付状态常量定义
+ * */
 @Getter
 @AllArgsConstructor
 public enum PayStatusEnum implements CodeEnum {
