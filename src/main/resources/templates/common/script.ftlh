@@ -3,7 +3,12 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="/sell/layui/layui.all.js"></script>
 <script>
-    layui.use('element', function(){
-        var element = layui.element;
+
+    layui.use('element,layer', function(){
+        window.element = layui.element;
+        window.layer = layui.layer;
     });
-</script>6
+    function searchByOrderId() {
+        layer.msg("HelloWord")
+    }
+</script>

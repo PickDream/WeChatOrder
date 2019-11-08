@@ -16,7 +16,8 @@ public enum ExceptionEnum {
     WECHAT_MP_ERROR(14,"微信公众账号方面错误"),
     ORDER_STATUS_ERROR(15,"订单状态错误"),
     ORDER_UPDATE_ERROR(16,"订单更新异常"),
-    ORDER_DETAIL_EMPTY(17,"订单商品列表为空")
+    ORDER_DETAIL_EMPTY(17,"订单商品列表为空"),
+    PRODUCT_STATUS_ERROR(18,"商品状态错误")
     ;
 
     private int code;

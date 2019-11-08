@@ -20,6 +20,7 @@ public class WxMpUser2UserInfoConverter {
                     .openId(wxMpUser.getOpenId())
                     .province(wxMpUser.getProvince())
                     .sex(wxMpUser.getSex())
+                    .imgUrl(wxMpUser.getHeadImgUrl())
                     .build();
             return userInfo;
         }).orElse(null);

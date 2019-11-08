@@ -6,6 +6,12 @@ import com.pickdream.wechatorder.beans.ProductCategory;
 import java.util.List;
 
 public interface CategoryService {
+    ProductCategory findOne(Long categoryId);
 
+    List<ProductCategory> findAll();
+
+    List<ProductCategory> findByCategoryTypeIn(List<Long> categoryTypeList);
+
+    ProductCategory save(ProductCategory productCategory);
 
 }

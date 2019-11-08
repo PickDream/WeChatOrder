@@ -27,4 +27,12 @@ public interface ProductService {
 
     ProductInfo save(ProductInfo info);
 
+    Page<ProductInfo> findAll(Pageable pageable);
+
+    //上架
+    ProductInfo onSale(Long productId);
+
+    //下架
+    ProductInfo offSale(Long productId);
+
 }

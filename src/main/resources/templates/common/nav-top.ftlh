@@ -1,6 +1,5 @@
  <div class="layui-header">
-        <div class="layui-logo">订餐管理系统</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <div class="layui-logo">微信订餐管理系统</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">

@@ -16,6 +16,8 @@ import com.pickdream.wechatorder.service.ProductService;
 import com.pickdream.wechatorder.utils.ResultVoUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,6 +88,41 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductInfo save(ProductInfo info) {
         return productInfoRepository.save(info);
+    }
+
+    @Override
+    public Page<ProductInfo> findAll(Pageable pageable) {
+       return productInfoRepository.findAll(pageable);
+    }
+
+    @Override
+    public ProductInfo onSale(Long productId) {
+        ProductInfo productInfo = productInfoRepository.getOne(productId);
+        if (productInfo == null) {
+            throw new SellException(ExceptionEnum.PRODUCT_NOT_EXIST);
+        }
+        if (productInfo.getProductStatusEnum() == ProductStatusEnum.UP) {
+            throw new SellException(ExceptionEnum.PRODUCT_STATUS_ERROR);
+        }
+
+        //更新
+        productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
+        return productInfoRepository.save(productInfo);
+    }
+
+    @Override
+    public ProductInfo offSale(Long productId) {
+        ProductInfo productInfo = productInfoRepository.getOne(productId);
+        if (productInfo == null) {
+            throw new SellException(ExceptionEnum.PRODUCT_NOT_EXIST);
+        }
+        if (productInfo.getProductStatusEnum() == ProductStatusEnum.DOWN) {
+            throw new SellException(ExceptionEnum.PRODUCT_STATUS_ERROR);
+        }
+
+        //更新
+        productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());
+        return productInfoRepository.save(productInfo);
     }
 
     private List<ProductVo> assembleProductsVo(List<ProductInfo> productInfos,

@@ -1,8 +1,12 @@
 package com.pickdream.wechatorder.controller;
 
+import com.pickdream.wechatorder.beans.UserInfo;
 import com.pickdream.wechatorder.config.ProjectUrlConfig;
+import com.pickdream.wechatorder.converter.WxMpUser2UserInfoConverter;
 import com.pickdream.wechatorder.enums.ExceptionEnum;
 import com.pickdream.wechatorder.exception.SellException;
+import com.pickdream.wechatorder.respository.UserInfoRepository;
+import com.pickdream.wechatorder.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -33,6 +37,9 @@ public class WeChatController {
     @Autowired
     private ProjectUrlConfig projectUrlConfig;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl")String returnUrl){
         String url = projectUrlConfig.getWechatMpAuthorize()+"/sell/wechat/userInfo";
@@ -53,15 +60,17 @@ public class WeChatController {
         }
         String openId = wxMpOAuth2AccessToken.getOpenId();
         //1. openId 在UserInfo 是否存在
-        //2. 不存在-> 则调用API进行获取
-        WxMpUser userInfo = null;
-        try {
-            userInfo = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken,null);
-        } catch (WxErrorException e) {
-            e.printStackTrace();
+        //2. 不存在-> 则调用API进行获取用户信息存储DB中
+        if (!userInfoService.contains(openId)){
+            try {
+                WxMpUser wxUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken,null);
+               UserInfo userInfo = WxMpUser2UserInfoConverter.convert(wxUser);
+                userInfoService.saveUserInfo(userInfo);
+            } catch (WxErrorException e) {
+                log.error("[获取微信用户信息失败]");
+                e.printStackTrace();
+            }
         }
-        String str = userInfo.getCity();
         return "redirect:"+ returnUrl + "?openid="+openId;
     }
-
 }

@@ -21,5 +21,26 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
+    @Autowired
+    private ProductCategoryRepository repository;
 
+    @Override
+    public ProductCategory findOne(Long categoryId) {
+        return repository.getOne(categoryId);
+    }
+
+    @Override
+    public List<ProductCategory> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<ProductCategory> findByCategoryTypeIn(List<Long> categoryTypeList) {
+        return repository.findByCategoryTypeIn(categoryTypeList);
+    }
+
+    @Override
+    public ProductCategory save(ProductCategory productCategory) {
+        return repository.save(productCategory);
+    }
 }

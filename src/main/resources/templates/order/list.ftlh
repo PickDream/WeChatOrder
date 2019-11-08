@@ -5,6 +5,10 @@
         <#include "../common/nav-top.ftlh">
         <#include "../common/nav-side.ftlh">
         <div class="layui-body" style="padding: 15px">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>订单信息显示</legend>
+            </fieldset>
+
                 <div class="layui-form">
                     <table class="layui-table">
                         <thead class="thead-light">
@@ -31,7 +35,7 @@
                                 <td>${orderDTO.getOrderStatusEnum().message}</td>
                                 <td>${orderDTO.getPayStatusEnum().message}</td>
                                 <td>${orderDTO.createTime}</td>
-                                <td>详情</td>
+                                <td><a href="/sell/seller/order/detail?orderId=${orderDTO.orderId}" class="layui-btn">详情</a></td>
                                 <td>
                                     <#if orderDTO.getOrderStatusEnum().message!="已取消">
                                         <a class="layui-btn layui-btn-normal" href="/sell/seller/order/cancel?orderId=${orderDTO.orderId}" role="button">取消</a>

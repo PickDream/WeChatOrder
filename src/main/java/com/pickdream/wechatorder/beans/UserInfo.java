@@ -9,10 +9,12 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Builder
-@Data
 @Entity
+@Data
+@Builder
 @DynamicUpdate
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserInfo {
     @Id
     String openId;
@@ -28,4 +30,6 @@ public class UserInfo {
     String province;
 
     String country;
+
+    String imgUrl;
 }

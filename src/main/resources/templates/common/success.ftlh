@@ -5,7 +5,7 @@
     <div class="alert alert-success" role="alert">
         <h1 class="alert-heading">SUCCESS!</h1>
         <p>
-            <span class="badge badge-pill badge-info">错误信息</span>
+            <span class="badge badge-pill badge-info">提示信息</span>
             ${msg}
         </p>
         <hr>
@@ -14,7 +14,7 @@
     <script>
         setTimeout(function () {
             location.href="${url}"
-        },1000);
+        },3000);
     </script>
 </div>
 </body>
