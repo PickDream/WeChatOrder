@@ -5,7 +5,7 @@
                 <a href="/sell/seller/order/list;">订单信息</a>
                 <dl class="layui-nav-child">
                     <dd><a href="/sell/seller/order/list;">订单操作</a></dd>
-                    <dd><a href="javascript:layer.msg('Hello');">订单详情</a></dd>
+                    <dd><a href="javascript:layer.msg('通过点击具体订单的详情页面查看');">订单详情</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
@@ -25,12 +25,13 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">商品类目管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">类目总览</a></dd>
-                    <dd><a href="">类目操作</a></dd>
+                    <dd><a href="/sell/seller/category/list">类目总览</a></dd>
+                    <dd><a href="">类目添加</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="#">微信消息发送</a></li>
+            <li class="layui-nav-item"><a href="/sell/push/list">微信消息发送</a></li>
             <li class="layui-nav-item"><a href="javascript:layer.msg('TJUT 16级考研班2组课程设计');">关于</a></li>
         </ul>
     </div>
 </div>
+

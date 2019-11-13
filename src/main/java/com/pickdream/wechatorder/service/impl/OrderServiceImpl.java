@@ -57,14 +57,11 @@ public class OrderServiceImpl implements OrderService {
 
         List<CartDTO> cartDTOS = new ArrayList<>();
         //遍历订单详情
-        orderDetails.stream().forEach((orderDetail)->{
+        for (OrderDetail orderDetail:orderDetails){
             ProductInfo productInfo = productInfoRepository
-                    .getOne(orderDetail.getProductId());
-            if (Objects.isNull(productInfo)){
-                throw new SellException(ExceptionEnum.PRODUCT_NOT_EXIST);
-            }
+                    .findById(orderDetail.getProductId()).orElseThrow(()->new SellException(ExceptionEnum.PRODUCT_NOT_EXIST));
             //计算订单总价
-            orderAmount.plus(productInfo.getProductPrice()
+            orderAmount = orderAmount.plus(productInfo.getProductPrice()
                     .multipliedBy(orderDetail.getProductQuantity()));
             //封装订单详细信息
             orderDetail.setOrderId(orderId);
@@ -76,17 +73,21 @@ public class OrderServiceImpl implements OrderService {
                     .productQuantity(orderDetail.getProductQuantity())
                     .build();
             cartDTOS.add(cartDTO);
-        });
+        }
         //写入订单数据库
+        orderDTO.setOrderAmount(orderAmount);
         OrderMaster orderMaster = new OrderMaster();
         BeanUtils.copyProperties(orderDTO,orderMaster);
         orderMaster.setOrderId(orderId);
         orderMaster.setOrderAmount(orderAmount);
         orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
         orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
-        orderMasterRepository.save(orderMaster);
+        orderMaster = orderMasterRepository.save(orderMaster);
+        orderDTO.setOrderId(orderMaster.getOrderId());
         //扣库存
         productService.decreaseStock(cartDTOS);
+        //发送WebSocket消息
+        //TODO 发送websocket消息
         return orderDTO;
     }
     @Override

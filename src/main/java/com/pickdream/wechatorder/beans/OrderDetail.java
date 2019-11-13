@@ -1,6 +1,7 @@
 package com.pickdream.wechatorder.beans;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import org.joda.money.Money;
 
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@DynamicUpdate
 public class OrderDetail {
 
     @Id

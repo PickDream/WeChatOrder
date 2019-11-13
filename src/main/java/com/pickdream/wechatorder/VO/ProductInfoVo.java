@@ -1,7 +1,10 @@
 package com.pickdream.wechatorder.VO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pickdream.wechatorder.utils.serializer.MoneyToStringSerializer;
 import lombok.*;
+import org.joda.money.Money;
 
 @Data
 @Builder
@@ -19,5 +22,11 @@ public class ProductInfoVo {
     private String productDescription;
 
     @JsonProperty("icon")
-    private String iconPath;
+    private String productIcon;
+
+    @JsonProperty("price")
+    @JsonSerialize(using = MoneyToStringSerializer.class)
+    private Money productPrice;
+
+
 }

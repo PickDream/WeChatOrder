@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ExceptionEnum {
+    PARAM_ERROR(1,"参数不正确"),
     PRODUCT_NOT_EXIST(10,"商品不存在"),
     PRODUCT_STOCK_ERROR(11,"库存不足"),
     ORDER_NOT_FOUND(12,"订单未找到"),
@@ -17,8 +18,8 @@ public enum ExceptionEnum {
     ORDER_STATUS_ERROR(15,"订单状态错误"),
     ORDER_UPDATE_ERROR(16,"订单更新异常"),
     ORDER_DETAIL_EMPTY(17,"订单商品列表为空"),
-    PRODUCT_STATUS_ERROR(18,"商品状态错误")
-    ;
+    PRODUCT_STATUS_ERROR(18,"商品状态错误"),
+    CART_EMPTY(19,"购物车不能为空");
 
     private int code;
     private String msg;
