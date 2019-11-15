@@ -17,8 +17,8 @@
                     <p>
                         品类ID:${category.categoryId}
                         <br>
-                        <button type="button" class="layui-btn"><i class="layui-icon"></i></button>
-                        <button type="button" class="layui-btn"><i class="layui-icon"></i></button>
+                        <a href="/sell/seller/category/update?cid=${category.categoryId}" class="layui-btn"><i class="layui-icon"></i></a>
+                        <a href="/sell/seller/category/del?cid=${category.categoryId}" class="layui-btn"><i class="layui-icon"></i></a>
                     </p>
                 </div>
             </li>

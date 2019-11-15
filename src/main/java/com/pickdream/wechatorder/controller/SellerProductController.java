@@ -4,6 +4,7 @@ import com.pickdream.wechatorder.beans.ProductCategory;
 import com.pickdream.wechatorder.beans.ProductInfo;
 import com.pickdream.wechatorder.dto.OrderDTO;
 import com.pickdream.wechatorder.exception.SellException;
+import com.pickdream.wechatorder.form.ProductInfoForm;
 import com.pickdream.wechatorder.service.CategoryService;
 import com.pickdream.wechatorder.service.ProductService;
 import org.springframework.beans.BeanUtils;
@@ -101,27 +102,27 @@ public class SellerProductController {
         return new ModelAndView("product/index", map);
     }
 
-//    /**
-//     * 保存/更新
-//     * @param form
-//     * @param bindingResult
-//     * @param map
-//     * @return
-//     */
-//    @PostMapping("/save")
-//    public ModelAndView save(@Valid ProductForm form,
-//                             BindingResult bindingResult,
-//                             Map<String, Object> map) {
-//        if (bindingResult.hasErrors()) {
-//            map.put("msg", bindingResult.getFieldError().getDefaultMessage());
-//            map.put("url", "/sell/seller/product/index");
-//            return new ModelAndView("common/error", map);
-//        }
-//
+    /**
+     * 保存/更新
+     * @param form
+     * @param bindingResult
+     * @param map
+     * @return
+     */
+    @PostMapping("/save")
+    public ModelAndView save(@Valid ProductInfoForm form,
+                             BindingResult bindingResult,
+                             Map<String, Object> map) {
+        if (bindingResult.hasErrors()) {
+            map.put("msg", bindingResult.getFieldError().getDefaultMessage());
+            map.put("url", "/sell/seller/product/index");
+            return new ModelAndView("common/error", map);
+        }
+
 //        ProductInfo productInfo = new ProductInfo();
 //        try {
 //            //如果productId为空, 说明是新增
-//            if (!StringUtils.isEmpty(form.getProductId())) {
+//            if (!StringUtils.isEmpty(form())) {
 //                productInfo = productService.findOne(form.getProductId());
 //            } else {
 //                form.setProductId(KeyUtil.genUniqueKey());
@@ -136,5 +137,6 @@ public class SellerProductController {
 //
 //        map.put("url", "/sell/seller/product/list");
 //        return new ModelAndView("common/success", map);
-//    }
+        return null;
+    }
 }

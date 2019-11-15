@@ -24,4 +24,20 @@ public class SellerUserController {
         map.put("userInfos",userInfos);
         return new ModelAndView("user/user",map);
     }
+
+    @GetMapping("/delUser")
+    public ModelAndView deleteUser(String openid,Map<String,Object> map){
+        userInfoService.deleteUser(openid);
+        map.put("url","/sell/user/userInfo");
+        map.put("msg","删除用户成功");
+        return new ModelAndView("common/success",map);
+    }
+
+    @GetMapping("searchUser")
+    public ModelAndView search(String username,Map<String,Object> map){
+        List<UserInfo> userInfos = userInfoService.findByNameLike(username);
+        map.put("userInfos",userInfos);
+        return new ModelAndView("user/user",map);
+    }
+
 }

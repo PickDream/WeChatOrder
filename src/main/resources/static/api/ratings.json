@@ -1,5 +1,6 @@
 {
-  "ratings": [
+  "errno": 0,
+  "data": [
     {
       "username": "3******c",
       "rateTime": 1469281964000,

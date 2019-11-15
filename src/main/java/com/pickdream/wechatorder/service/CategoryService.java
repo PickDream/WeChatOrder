@@ -14,4 +14,6 @@ public interface CategoryService {
 
     ProductCategory save(ProductCategory productCategory);
 
+    void delete(Long cid);
+
 }

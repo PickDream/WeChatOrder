@@ -12,4 +12,8 @@ public interface UserInfoService {
 
     boolean contains(String openId);
 
+    void deleteUser(String openId);
+
+    List<UserInfo> findByNameLike(String name);
+
 }

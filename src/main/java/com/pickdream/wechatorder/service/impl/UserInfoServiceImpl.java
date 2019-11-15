@@ -29,4 +29,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     public boolean contains(String openId) {
         return  repository.findById(openId).isPresent();
     }
+
+    @Override
+    public void deleteUser(String openId) {
+        repository.deleteById(openId);
+    }
+
+    @Override
+    public List<UserInfo> findByNameLike(String name) {
+        return repository.findAllByNickNameContains(name);
+    }
+
+
 }
