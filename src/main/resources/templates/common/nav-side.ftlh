@@ -5,8 +5,6 @@
                 <a href="/sell/seller/order/list;">仪表盘</a>
                 <dl class="layui-nav-child">
                     <dd><a href="/sell/statistic/all">数据总览</a></dd>
-                    <dd><a href="">销量营业额</a></dd>
-                    <dd><a href="">菜品预测</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
