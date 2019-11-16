@@ -75,4 +75,19 @@ public class StatisticsController {
         map.put("cancelOrder",cancelOrder.size());
 
     }
+
+//    private void getTodayOrder(Map<String,Object> map){
+//        List<OrderMaster> orderMasters = orderMasterRepository.findAll();
+//        List<OrderMaster> newOrder = orderMasters.stream()
+//                .filter((master)->master.getCreateTime()==0).collect(Collectors.toList());
+//    }
+//
+//
+//    private void getProductSoldCount(Map<String,Object> map){
+//        List<OrderMaster> orderMasters = orderMasterRepository.findAll();
+//        List<OrderDetail> orderDetails = orderDetailRepository.findAll();
+//
+//        List<OrderMaster> newOrder = orderMasters.stream()
+//                .filter((master)->master.getCreateTime()==0).collect(Collectors.toList());
+//    }
 }

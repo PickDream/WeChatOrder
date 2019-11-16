@@ -8,7 +8,7 @@
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>商品信息新增/修改</legend>
             </fieldset>
-            <form class="layui-form" action="" method="post">
+            <form class="layui-form" action="/sell/seller/product/save" method="post">
                 <div class="layui-form-item">
                     <label class="layui-form-label">名称</label>
                     <div class="layui-input-block">

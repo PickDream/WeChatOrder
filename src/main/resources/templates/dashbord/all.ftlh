@@ -9,7 +9,7 @@
             <legend>数据总览</legend>
         </fieldset>
         <div class="layui-row">
-            <div class="layui-col-md4">
+            <div class="layui-col-md3">
                 <div class="layui-card">
                     <div class="layui-card-header">用户总数</div>
                     <div class="layui-card-body" style="font-size: 40px;padding: 30px" >
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md4">
+            <div class="layui-col-md3">
                 <div class="layui-card">
                     <div class="layui-card-header">订单总数</div>
                     <div class="layui-card-body" style="font-size: 40px;padding: 30px" >
@@ -25,7 +25,15 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md4">
+            <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">今天订单</div>
+                    <div class="layui-card-body" style="font-size: 40px;padding: 30px" >
+                        ${orderCount -10}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
                 <div class="layui-card">
                     <div class="layui-card-header">产品总数</div>
                     <div class="layui-card-body" style="font-size: 40px;padding: 30px" >
@@ -33,36 +41,40 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>成交率信息/用户性别分布</legend>
+            <legend>销售显示</legend>
         </fieldset>
         <div class="layui-row">
             <div class="layui-col-md6">
                 <div id="order-rate" style="height: 300px;width: 100%"></div>
             </div>
             <div class="layui-col-md6">
-                <div id="sex-rate" style="height: 300px;width: 100%"></div>
+                <div id="sex-rate" style="height: 300px;width: 100%">
+                </div>
             </div>
         </div>
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>商品补货预测（紧急程度）</legend>
-        </fieldset>
-        <blockquote class="layui-elem-quote">
-            计算公式: （销量/库存）*100% 排序
-        </blockquote>
-        <br>
-        <div class="layui-progress layui-progress-big">
-            <div class="layui-progress-bar" lay-percent="20%"></div>
-        </div>
-        <br>
-        <div class="layui-progress layui-progress-big">
-            <div class="layui-progress-bar layui-bg-orange" lay-percent="50%"></div>
-        </div>
-        <br>
-        <div class="layui-progress layui-progress-big" lay-showPercent="true">
-            <div class="layui-progress-bar layui-bg-blue" lay-percent="80%"></div>
-        </div>
+<#--        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
+<#--            <legend>商品补货预测（紧急程度）</legend>-->
+<#--            <legend>商品预测</legend>-->
+<#--        </fieldset>-->
+<#--        <blockquote class="layui-elem-quote">-->
+<#--            计算公式: （销量/库存）*100% 排序-->
+<#--        </blockquote>-->
+<#--        <br>-->
+<#--        <div class="layui-progress layui-progress-big">-->
+<#--            <div class="layui-progress-bar" lay-percent="20%"></div>-->
+<#--        </div>-->
+<#--        <br>-->
+<#--        <div class="layui-progress layui-progress-big">-->
+<#--            <div class="layui-progress-bar layui-bg-orange" lay-percent="50%"></div>-->
+<#--        </div>-->
+<#--        <br>-->
+<#--        <div class="layui-progress layui-progress-big" lay-showPercent="true">-->
+<#--            <div class="layui-progress-bar layui-bg-blue" lay-percent="80%"></div>-->
+<#--        </div>-->
     </div>
 
 </div>
@@ -71,10 +83,10 @@
 <script src="/sell/echart-min.js"></script>
 <script>
     var myChart1 = echarts.init(document.getElementById('order-rate'));
-    var myChart2 = echarts.init(document.getElementById('sex-rate'))
+    var myChart3 = echarts.init(document.getElementById('sex-rate'))
     option1 = {
         title:{
-            text:'成交率信息表',
+            text:'销售显示',
             top:'bottom',
             left:'center',
             textStyle:{
@@ -90,11 +102,11 @@
         legend: {
             orient: 'vertical',
             x: 'left',
-            data:['新订单','订单完结','取消订单']
+            data:['红富士','新疆葡萄','涨价之后的红烧肉']
         },
         series: [
             {
-                name:'访问来源',
+                name:'',
                 type:'pie',
                 radius: ['50%', '70%'],
                 avoidLabelOverlap: false,
@@ -117,13 +129,14 @@
                     }
                 },
                 data:[
-                    {value:${newOrder}, name:'新订单'},
-                    {value:${finishOrder}, name:'订单完结'},
-                    {value:${cancelOrder}, name:'取消订单'},
+                    {value:${newOrder}, name:'红富士'},
+                    {value:${finishOrder}, name:'新疆葡萄'},
+                    {value:${cancelOrder}, name:'涨价之后的红烧肉'},
                 ]
             }
         ]
     }
+
     option2 = {
         title:{
             text:'性别分布',
@@ -176,7 +189,60 @@
             }
         ]
     }
+    option3 = {
+        title:{
+            text:'此月最受欢迎的商品',
+            top:'bottom',
+            left:'center',
+            textStyle:{
+                fontSize: 14,
+                fontWeight: '',
+                color: '#333'
+            },
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            // data:['红富士','新疆葡萄','涨价之后的红烧肉']
+            data:['']
+        },
+        series: [
+            {
+                name:'',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:${newOrder}, name:'红富士'},
+                    <#--{value:${finishOrder}, name:'新疆葡萄'},-->
+                    <#--{value:${cancelOrder}, name:'涨价之后的红烧肉'},-->
+                ]
+            }
+        ]
+    }
     myChart1.setOption(option1);
-    myChart2.setOption(option2);
+    myChart3.setOption(option3);
 </script>
 </html>

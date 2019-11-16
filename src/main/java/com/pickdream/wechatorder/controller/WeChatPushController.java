@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,27 @@ public class WeChatPushController {
         map.put("url","/sell/push/list");
         pushService.sendMsg(msg);
         return new ModelAndView("/common/success",map);
+    }
+
+    @GetMapping("/group")
+    public ModelAndView group(Map<String,Object> map){
+        List<UserInfo> userInfos = userInfoService.findAll();
+        map.put("users",userInfos);
+        return new ModelAndView("/msg/group",map);
+    }
+
+    @PostMapping("/groupsend")
+    public ModelAndView groupSend(String[] openid,String desc,Map<String,Object> map){
+        for (String id:openid){
+            MessageForm messageForm = new MessageForm();
+            messageForm.setMsg(desc);
+            messageForm.setOpenid(id);
+            messageForm.setUrl("http://maoxin.natapp1.cc/sell/wechat/authorize?returnUrl=http://maoxin.natapp1.cc/#/cc");
+            pushService.sendMsg(messageForm);
+        }
+        map.put("msg","群发消息成功");
+        map.put("url","/sell/push/group");
+        return new ModelAndView("common/success");
     }
 
 }

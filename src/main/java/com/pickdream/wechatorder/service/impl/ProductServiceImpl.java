@@ -96,6 +96,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductInfo> findByNameContains(Pageable pageable,String name) {
+        return productInfoRepository.findByProductNameContains(pageable,name);
+    }
+
+    @Override
     public ProductInfo onSale(Long productId) {
         ProductInfo productInfo = productInfoRepository.getOne(productId);
         if (productInfo == null) {

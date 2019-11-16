@@ -38,7 +38,7 @@
                 <a href="javascript:;">微信消息支持</a>
                 <dl class="layui-nav-child">
                     <dd><a href="/sell/push/list">微信消息发送</a></dd>
-                    <dd><a href="">折扣群发</a></dd>
+                    <dd><a href="/sell/push/group">折扣群发</a></dd>
                 </dl>
             </li>
 

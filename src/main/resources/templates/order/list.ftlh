@@ -8,7 +8,6 @@
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>订单信息显示</legend>
             </fieldset>
-
                 <div class="layui-form">
                     <table class="layui-table">
                         <thead class="thead-light">

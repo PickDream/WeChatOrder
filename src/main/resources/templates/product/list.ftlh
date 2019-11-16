@@ -7,6 +7,17 @@
     <div class="layui-body" style="padding: 15px">
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>商品信息显示</legend>
+            <form class="layui-form" action="/sell/seller/product/search" method="get">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">搜商品</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="pname" required  lay-verify="required" placeholder="商品名称" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+                    </div>
+                </div>
+            </form>
             <table class="layui-table">
                 <thead>
                 <tr>

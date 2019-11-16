@@ -23,7 +23,6 @@ server:
 executor:
 
 
-
 wechat:
   mp-app-id: wx758f78f4279aed99
   mp-app-secret: a0c984a3b80683d39f68c3fb1d337e46

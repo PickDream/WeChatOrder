@@ -7,14 +7,14 @@ import org.joda.money.Money;
 @Data
 public class ProductInfoForm {
 
-    private String productId;
+    private Long productId;
 
     /** 名字. */
     private String productName;
 
     /** 单价. */
 
-    private Money productPrice;
+    private String productPrice;
 
     /** 库存. */
     private Integer productStock;
@@ -26,5 +26,5 @@ public class ProductInfoForm {
     private String productIcon;
 
     /** 类目编号. */
-    private Integer categoryType;
+    private Long categoryType;
 }

@@ -7,6 +7,7 @@ import com.pickdream.wechatorder.exception.SellException;
 import com.pickdream.wechatorder.form.ProductInfoForm;
 import com.pickdream.wechatorder.service.CategoryService;
 import com.pickdream.wechatorder.service.ProductService;
+import org.joda.money.Money;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -119,24 +120,37 @@ public class SellerProductController {
             return new ModelAndView("common/error", map);
         }
 
-//        ProductInfo productInfo = new ProductInfo();
-//        try {
-//            //如果productId为空, 说明是新增
-//            if (!StringUtils.isEmpty(form())) {
-//                productInfo = productService.findOne(form.getProductId());
-//            } else {
-//                form.setProductId(KeyUtil.genUniqueKey());
-//            }
-//            BeanUtils.copyProperties(form, productInfo);
-//            productService.save(productInfo);
-//        } catch (SellException e) {
-//            map.put("msg", e.getMessage());
-//            map.put("url", "/sell/seller/product/index");
-//            return new ModelAndView("common/error", map);
-//        }
-//
-//        map.put("url", "/sell/seller/product/list");
-//        return new ModelAndView("common/success", map);
-        return null;
+        ProductInfo productInfo = new ProductInfo();
+        try {
+            //如果productId为空, 说明是新增
+            productInfo.setProductPrice(Money.parse(form.getProductPrice()));
+            productInfo.setProductStock(form.getProductStock());
+            productInfo.setCategoryType(form.getCategoryType());
+            productInfo.setProductId(form.getProductId());
+            productInfo.setProductIcon(form.getProductIcon());
+            productInfo.setProductDescription(form.getProductDescription());
+            productInfo.setProductName(form.getProductName());
+            productService.save(productInfo);
+        } catch (SellException e) {
+            map.put("msg", e.getMessage());
+            map.put("url", "/sell/seller/product/index");
+            return new ModelAndView("common/error", map);
+        }
+        map.put("msg","添加/修改成功");
+        map.put("url", "/sell/seller/product/list");
+        return new ModelAndView("common/success", map);
     }
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                             @RequestParam(value = "size",defaultValue = "2") Integer size,
+                             String pname,
+                             Map<String,Object> map){
+        PageRequest request = PageRequest.of(page-1,size);
+        Page<ProductInfo> productInfoPage = productService.findByNameContains(request,pname);
+        map.put("productInfoPage",productInfoPage);
+        map.put("currentPage",page);
+        map.put("size",size);
+        return new ModelAndView("product/list",map);
+    }
+
 }

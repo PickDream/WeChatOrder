@@ -29,10 +29,12 @@ public interface ProductService {
 
     Page<ProductInfo> findAll(Pageable pageable);
 
+    Page<ProductInfo> findByNameContains(Pageable pageable,String name);
     //上架
     ProductInfo onSale(Long productId);
 
     //下架
     ProductInfo offSale(Long productId);
+
 
 }

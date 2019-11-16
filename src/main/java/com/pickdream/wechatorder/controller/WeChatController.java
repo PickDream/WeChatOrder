@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 
 /**
@@ -48,7 +51,7 @@ public class WeChatController {
         return "redirect:"+redirectUrl;
     }
     @GetMapping("/userInfo")
-    public String userInfo(@RequestParam("code")String code,@RequestParam("state")String returnUrl){
+    public String userInfo(@RequestParam("code")String code, @RequestParam("state")String returnUrl, HttpServletResponse response){
 
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken;
         try {
@@ -71,6 +74,10 @@ public class WeChatController {
                 e.printStackTrace();
             }
         }
+        Cookie cookie = new Cookie("openid",openId);
+        cookie.setMaxAge(5 * 60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return "redirect:"+ returnUrl + "?openid="+openId;
     }
 }
