@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(ProductInfo::getCategoryType)
                 .collect(Collectors.toList());
-        List<ProductCategory> categories = categoryRepository.findByCategoryTypeIn(list);
+        List<ProductCategory> categories = categoryRepository.findByCategoryIdIn(list);
         List<ProductVo> productVos = assembleProductsVo(productInfoList,categories);
         return ResultVoUtil.success(productVos);
     }

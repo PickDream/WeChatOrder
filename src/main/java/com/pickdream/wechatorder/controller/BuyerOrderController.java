@@ -13,6 +13,7 @@ import com.pickdream.wechatorder.config.AlipayConfig;
 import com.pickdream.wechatorder.converter.OrderForm2OrderDTOConverter;
 import com.pickdream.wechatorder.dto.OrderDTO;
 import com.pickdream.wechatorder.enums.ExceptionEnum;
+import com.pickdream.wechatorder.enums.PayStatusEnum;
 import com.pickdream.wechatorder.exception.SellException;
 import com.pickdream.wechatorder.form.OrderForm;
 import com.pickdream.wechatorder.respository.OrderMasterRepository;
@@ -110,11 +111,11 @@ public class BuyerOrderController {
         //验证回调的正确性，是不是支付宝发的，
         try {
             boolean alipayRSACheckedV2 = AlipaySignature.rsaCheckV2(params, alipayConfig.getAlipayPublicKey(),"utf-8",alipayConfig.getSignType());
-            if (!alipayRSACheckedV2){
+            if (alipayRSACheckedV2){
                 //执行修改订单操作
                 Optional<OrderMaster> orderMaster = orderMasterRepository.findById(params.get("out_trade_no"));
                 OrderMaster orderMaster1 = orderMaster.get();
-                orderMaster1.setOrderStatus(2);
+                orderMaster1.setPayStatus(PayStatusEnum.SUCCESS.getCode());
                 orderMasterRepository.save(orderMaster1);
             }
         } catch (AlipayApiException e) {
@@ -129,6 +130,7 @@ public class BuyerOrderController {
     private AlipayTradePrecreateResponse preCreateOrder(OrderDTO orderDTO) throws AlipayApiException {
         AlipayTradePrecreateRequest preCreateRequest = new AlipayTradePrecreateRequest();
         preCreateRequest.setBizContent(getPreCreateInfo(orderDTO));
+        preCreateRequest.setNotifyUrl("http://maoxin.natapp1.cc/sell/buyer/order/callback");
         return alipayClient.execute(preCreateRequest);
     }
 

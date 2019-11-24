@@ -15,9 +15,15 @@ public class AlipayClientConfig {
 
     @Bean
     public AlipayClient alipayClient(){
-        return new DefaultAlipayClient(alipayConfig.getOpenApiDomain(),alipayConfig.getAppId(),
-                alipayConfig.getPrivateKey(),"json","utf-8",alipayConfig.getAlipayPublicKey(),
+        DefaultAlipayClient client =  new DefaultAlipayClient(
+                alipayConfig.getOpenApiDomain(),
+                alipayConfig.getAppId(),
+                alipayConfig.getPrivateKey(),
+                "json",
+                "utf-8",
+                alipayConfig.getAlipayPublicKey(),
                 alipayConfig.getSignType());
+        return client;
     }
 
 }

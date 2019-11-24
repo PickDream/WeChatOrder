@@ -46,7 +46,7 @@ alipay:
   # 交易保障线程第一次调度延迟和调度间隔（秒）
   heartbeat-delay: 5
   heartbeat-duration: 900
-  call-back: http://maoxin.napapp1.cc
+  call-back: http://maoxin.natapp1.cc/sell/buyer/order/callback
 
 
 project-url:

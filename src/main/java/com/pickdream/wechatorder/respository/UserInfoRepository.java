@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 
     List<UserInfo> findAllByNickNameContains(String name);
+
 }

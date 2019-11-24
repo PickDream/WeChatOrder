@@ -1,5 +1,10 @@
 package com.pickdream.wechatorder.service.impl;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.request.AlipayTradeRefundApplyRequest;
+import com.alipay.api.response.AlipayTradeRefundApplyResponse;
+import com.google.gson.Gson;
 import com.pickdream.wechatorder.beans.OrderDetail;
 import com.pickdream.wechatorder.beans.OrderMaster;
 import com.pickdream.wechatorder.beans.ProductInfo;
@@ -28,10 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("orderService")
@@ -46,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
     OrderMasterRepository orderMasterRepository;
     @Autowired
     ProductService productService;
+    @Autowired
+    AlipayClient alipayClient;
 
     @Override
     @Transactional
@@ -151,6 +155,10 @@ public class OrderServiceImpl implements OrderService {
         //如果已经支付，需要退款
         if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())){
             //TODO 支付退款操作
+            String ret = orderRefund(orderDTO.getOrderId());
+            if (!"success".equals(ret)){
+                log.error("支付宝退款失败");
+            }
         }
         return orderDTO;
     }
@@ -183,5 +191,29 @@ public class OrderServiceImpl implements OrderService {
         Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
         List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
         return new PageImpl<>(orderDTOList, pageable, orderMasterPage.getTotalElements());
+    }
+    private String orderRefund(String orderId){
+        AlipayTradeRefundApplyRequest alipayTradeRefundApplyRequest  = new AlipayTradeRefundApplyRequest();
+        String refundBiz = setRefundInfo(orderId);
+        alipayTradeRefundApplyRequest.setBizContent(refundBiz);
+        try {
+            AlipayTradeRefundApplyResponse response = alipayClient.execute(alipayTradeRefundApplyRequest);
+            if (response.isSuccess()){
+                return "success";
+            }
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return "failed";
+    }
+
+    private String setRefundInfo(String orderId){
+        Gson gson = new Gson();
+        Map<String,Object> requestMap = new HashMap<>();
+        requestMap.put("out_trade_no",orderId);
+        OrderDTO orderDTO = findOne(orderId);
+        requestMap.put("refund_amount",orderDTO.getOrderAmount().getAmountMinorLong()/100.0);
+        requestMap.put("out_request_no","UNIQUE001");
+        return gson.toJson(requestMap);
     }
 }

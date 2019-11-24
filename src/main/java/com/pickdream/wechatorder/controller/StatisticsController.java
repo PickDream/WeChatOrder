@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.time.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -39,6 +39,8 @@ public class StatisticsController {
         getCount(map);
         statisticsSex(map);
         statisticsOrder(map);
+        getTodayOrder(map);
+        getProductSoldCount(map);
         return new ModelAndView("/dashbord/all");
     }
 
@@ -76,18 +78,78 @@ public class StatisticsController {
 
     }
 
-//    private void getTodayOrder(Map<String,Object> map){
-//        List<OrderMaster> orderMasters = orderMasterRepository.findAll();
-//        List<OrderMaster> newOrder = orderMasters.stream()
-//                .filter((master)->master.getCreateTime()==0).collect(Collectors.toList());
-//    }
-//
-//
-//    private void getProductSoldCount(Map<String,Object> map){
-//        List<OrderMaster> orderMasters = orderMasterRepository.findAll();
-//        List<OrderDetail> orderDetails = orderDetailRepository.findAll();
-//
-//        List<OrderMaster> newOrder = orderMasters.stream()
-//                .filter((master)->master.getCreateTime()==0).collect(Collectors.toList());
-//    }
+    private void getTodayOrder(Map<String,Object> map){
+        int todayOrderCount=0;
+        LocalDate Today= LocalDate.now();
+        List<OrderMaster> orderMasters = orderMasterRepository.findAll();
+        for(OrderMaster orderOne:orderMasters){
+            Date date;
+            date=orderOne.getCreateTime();
+            if(date.toString().indexOf(Today.toString())==0){
+                todayOrderCount++;
+            }
+        };
+
+        map.put("todayOrderCount",todayOrderCount);
+    }
+
+
+    private void getProductSoldCount(Map<String,Object> map){
+        List<OrderMaster> orderMasters = orderMasterRepository.findAll();
+        List<OrderDetail> orderDetails = orderDetailRepository.findAll();
+        LocalDate Today= LocalDate.now();
+        //从订单主表中获取符合标准（一个月内）的订单的id
+        List<String> upToStandardOrderIds =new ArrayList<>();
+        for(OrderMaster orderMaster:orderMasters){
+            Period period = Period.between(
+                    orderMaster.getCreateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    , Today);
+            if(period.getDays()<30){
+                upToStandardOrderIds.add(orderMaster.getOrderId());
+            }
+        }
+
+        //从订单详情表中获取一个月内的订单
+        List<OrderDetail> upToStandardOrder= orderDetails.stream()
+                .filter((order)->upToStandardOrderIds.contains(order.getOrderId())).collect(Collectors.toList());
+        HashMap<String,Integer> nameAndNumMap=new HashMap<>();
+
+        //存 商品名和总数量到 nameAndNumMap 中
+        for(OrderDetail order:upToStandardOrder){
+            String  productName= order.getProductName();
+            int  productQuantity= order.getProductQuantity();
+            if(!nameAndNumMap.containsKey(productName)){
+                nameAndNumMap.put(productName,productQuantity);
+            }else {
+                //如果productName不在map里面replace会出null
+                nameAndNumMap.replace(productName,nameAndNumMap.get(productName)+productQuantity);
+            }
+        }
+
+
+        //销售最好的商品
+        String bestProductName="";
+        int bestProductNum=0;
+        for(String a :nameAndNumMap.keySet()){
+            int temp=nameAndNumMap.get(a);
+            if(temp>bestProductNum){
+                bestProductName=a;
+                bestProductNum=temp;
+            }
+        }
+
+        System.out.println("bestProductName"+bestProductNum);
+
+        List<String> mapKeys=new ArrayList<>();
+        for(String name:nameAndNumMap.keySet()){
+            mapKeys.add(name);
+        }
+
+        map.put("mapKeys",mapKeys);
+
+
+        map.put("bestProductName",bestProductName);
+        map.put("nameAndNumMap",nameAndNumMap);
+
+    }
 }

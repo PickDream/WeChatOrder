@@ -29,7 +29,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">今天订单</div>
                     <div class="layui-card-body" style="font-size: 40px;padding: 30px" >
-                        ${orderCount -10}
+                        ${todayOrderCount}
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
 
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>销售显示</legend>
+            <legend>数据统计</legend>
         </fieldset>
         <div class="layui-row">
             <div class="layui-col-md6">
@@ -56,25 +56,6 @@
                 </div>
             </div>
         </div>
-<#--        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
-<#--            <legend>商品补货预测（紧急程度）</legend>-->
-<#--            <legend>商品预测</legend>-->
-<#--        </fieldset>-->
-<#--        <blockquote class="layui-elem-quote">-->
-<#--            计算公式: （销量/库存）*100% 排序-->
-<#--        </blockquote>-->
-<#--        <br>-->
-<#--        <div class="layui-progress layui-progress-big">-->
-<#--            <div class="layui-progress-bar" lay-percent="20%"></div>-->
-<#--        </div>-->
-<#--        <br>-->
-<#--        <div class="layui-progress layui-progress-big">-->
-<#--            <div class="layui-progress-bar layui-bg-orange" lay-percent="50%"></div>-->
-<#--        </div>-->
-<#--        <br>-->
-<#--        <div class="layui-progress layui-progress-big" lay-showPercent="true">-->
-<#--            <div class="layui-progress-bar layui-bg-blue" lay-percent="80%"></div>-->
-<#--        </div>-->
     </div>
 
 </div>
@@ -84,6 +65,13 @@
 <script>
     var myChart1 = echarts.init(document.getElementById('order-rate'));
     var myChart3 = echarts.init(document.getElementById('sex-rate'))
+    var list=[];
+
+    <#list mapKeys as mapKey>
+    list.push('${mapKey}');
+    </#list>
+
+
     option1 = {
         title:{
             text:'销售显示',
@@ -102,7 +90,8 @@
         legend: {
             orient: 'vertical',
             x: 'left',
-            data:['红富士','新疆葡萄','涨价之后的红烧肉']
+            // data:['红富士','新疆葡萄','涨价之后的红烧肉']
+            data:list
         },
         series: [
             {
@@ -129,9 +118,13 @@
                     }
                 },
                 data:[
-                    {value:${newOrder}, name:'红富士'},
-                    {value:${finishOrder}, name:'新疆葡萄'},
-                    {value:${cancelOrder}, name:'涨价之后的红烧肉'},
+                    <#list mapKeys as mapKey>
+
+                    {value:${nameAndNumMap[mapKey]}, name:'${mapKey}'},
+                    </#list>
+                    <#--{value:${newOrder}, name:'红富士'},-->
+                    <#--{value:${finishOrder}, name:'新疆葡萄'},-->
+                    <#--{value:${cancelOrder}, name:'涨价之后的红烧肉'},-->
                 ]
             }
         ]
@@ -208,7 +201,7 @@
             orient: 'vertical',
             x: 'left',
             // data:['红富士','新疆葡萄','涨价之后的红烧肉']
-            data:['']
+            data:['${bestProductName}' ]
         },
         series: [
             {
@@ -235,14 +228,14 @@
                     }
                 },
                 data:[
-                    {value:${newOrder}, name:'红富士'},
+                    {value:${newOrder}, name:'${bestProductName}'},
                     <#--{value:${finishOrder}, name:'新疆葡萄'},-->
                     <#--{value:${cancelOrder}, name:'涨价之后的红烧肉'},-->
                 ]
             }
         ]
-    }
-    myChart1.setOption(option1);
+    };
     myChart3.setOption(option3);
+    myChart1.setOption(option1);
 </script>
 </html>

@@ -35,9 +35,9 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">图片</label>
-                    <img height="100" width="100" style="margin-left: 30px" src="${(productInfo.productIcon)!''}" alt="">
+                    <img id = "img" height="100" width="100" style="margin-left: 30px" src="${(productInfo.productIcon)!''}"  alt="URL地址解析失败">
                     <div class="layui-input-block">
-                        <input type="text" name="productIcon" required  lay-verify="required" placeholder="请输入图片url" autocomplete="off" class="layui-input"  value="${(productInfo.productIcon)!''}">
+                        <input type="text" id="input_img" name="productIcon" required  lay-verify="required" placeholder="请输入图片url" autocomplete="off" class="layui-input"  value="${(productInfo.productIcon)!''}">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -68,4 +68,11 @@
     </div>
 </body>
 <#include "../common/script.ftlh">
+<script>
+    var btn = document.querySelector("#input_img");
+    var img = document.querySelector("#img");
+    btn.oninput = function () {
+        img.src = this.value;
+    }
+</script>
 </html>
